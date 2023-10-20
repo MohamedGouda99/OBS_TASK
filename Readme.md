@@ -34,10 +34,10 @@ This command executes the Python script.
 - The script will process the user data and provide feedback based on the results. The output will be displayed in the terminal.
 
 #
-# Task 2
+# 📋Task 2
 🏗️✨ An infrastructure has been meticulously crafted using Terraform to establish an Amazon Elastic Kubernetes Service (EKS) cluster. Following the setup, the delectable Juice Shop application was elegantly deployed within this environment. 🚀🌐
 
-## How to Run it ?
+## 🚀How to Run it ?
 
 1. Clone task2 then upload it in a separate repository.
 2. Copy your AWS credentials then add to your secrets.
@@ -60,7 +60,7 @@ kubectl get ingress
 ![Terraform Commands](Task2/Application_Page/Front-end.png)
 
 #
-# Task 3
+# 📋Task 3
 
 ## Dockerfile for Running Postman Collection with Newman.
 This Dockerfile provides an environment for running Postman collections using Newman, with additional features and configurations.
