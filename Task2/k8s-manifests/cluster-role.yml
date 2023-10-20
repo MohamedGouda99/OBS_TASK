@@ -1,11 +1,8 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: api-access-role
+  name: cluster-administrator
 rules:
 - apiGroups: [""]
-  resources: ["pods", "services", "secrets", "configmaps"]
-  verbs: ["get", "watch", "list"]
-- apiGroups: ["apps"]
-  resources: ["deployments"]
-  verbs: ["get", "watch", "list"]
+  resources: ["nodes"]
+  verbs: ["get", "create", "list"]

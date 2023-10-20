@@ -4,7 +4,7 @@ metadata:
   name: juice-shop-ingress
 spec:
   rules:
-    - host: 
+    - host: ad702c6ef03784338837d02cb2ee84d6-1669425440.us-east-1.elb.amazonaws.com
       http:
         paths:
           - path: /

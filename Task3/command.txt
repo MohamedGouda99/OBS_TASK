@@ -1,1 +1,2 @@
+docker build -t custom_newman_image .
 docker run --dns 8.8.8.8 --dns 1.1.1.1 -v .:/etc/newman custom_newman_image run /etc/newman/collection.json

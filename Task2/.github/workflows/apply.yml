@@ -77,8 +77,8 @@ jobs:
        ./../automation_sc/get_loadbalancer_url.sh
        kubectl apply -f ingress.yml
        kubectl apply -f cluster-role.yml
-       kubectl apply -f service-account.yml
        kubectl apply -f cluster-role-binding.yml
+       kubectl apply -f policy.yml
        kubectl get ing
        echo "DONE"
 

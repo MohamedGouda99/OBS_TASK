@@ -3,9 +3,9 @@ kind: NetworkPolicy
 metadata:
   name: restrict-api-access
 spec:
-  podSelector:
+  podSelector:         
     matchLabels:
-      app: juice-shop
+      run: juice-shop   
   policyTypes:
   - Ingress
   - Egress

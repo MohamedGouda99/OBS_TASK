@@ -94,6 +94,3 @@ docker run --dns 8.8.8.8 --dns 1.1.1.1 -v .:/etc/newman custom_newman_image run 
 ## Expected Output
 
 ![Terraform Commands](Task3/output.png)
-
-
-
