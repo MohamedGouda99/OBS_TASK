@@ -1,0 +1,84 @@
+name: Build Terraform INFRA and Deploy K8S Manifests
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  Build_Project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install dependencies
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_KEY_ID}}
+          REGION: ${{secrets.AWS_REGION}}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y unzip
+          wget https://releases.hashicorp.com/terraform/1.0.9/terraform_1.0.9_linux_amd64.zip
+          unzip terraform_1.0.9_linux_amd64.zip
+          sudo mv terraform /usr/local/bin/
+          echo "DONE"
+
+      - name: Build
+        run: terraform version
+
+      - name: Apply
+        run: |
+          cd $GITHUB_WORKSPACE/project
+          sudo apt install awscli
+          aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY_ID}}
+          aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_KEY_ID}}
+          aws configure set default.region ${{secrets.AWS_REGION}}
+          terraform init
+          terraform apply --auto-approve 
+          chmod +x ../automation_sc/copy_tfstate.sh 
+          ./../automation_sc/copy_tfstate.sh
+
+
+  
+
+  update-kubeconfig:
+    # needs: Build_Project
+    name: Update kubeconfig
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v2.0
+      with:
+        version: "v1.24.0"
+      id: install
+
+    
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    
+
+    - name: Deploy Manifests
+      run: |
+       cd $GITHUB_WORKSPACE/k8s-manifests
+       sudo apt-get update
+       sudo apt install awscli
+       aws configure set aws_access_key_id ${{secrets.AWS_ACCESS_KEY_ID}}
+       aws configure set aws_secret_access_key ${{secrets.AWS_SECRET_KEY_ID}}
+       aws configure set default.region ${{secrets.AWS_REGION}}
+       aws eks update-kubeconfig --name hr-stag-eksdemo1 --region us-east-1 
+       kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.0.0/deploy/static/provider/cloud/deploy.yaml
+       kubectl run juice-shop --image=bkimminich/juice-shop --port=3000
+       kubectl apply -f service-loadbalancer.yml
+       chmod +x ../automation_sc/get_loadbalancer_url.sh
+       ./../automation_sc/get_loadbalancer_url.sh
+       kubectl apply -f ingress.yml
+       kubectl apply -f cluster-role.yml
+       kubectl apply -f service-account.yml
+       kubectl apply -f cluster-role-binding.yml
+       kubectl get ing
+       echo "DONE"
+

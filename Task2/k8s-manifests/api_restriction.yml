@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: restrict-api-access
+spec:
+  podSelector:
+    matchLabels:
+      app: juice-shop
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 41.40.151.124/32
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0

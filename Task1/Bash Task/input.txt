@@ -1,0 +1,5 @@
+John, john_j123@domain.com, 325
+Susan, ,510
+Jane, jane_j121@domain.com, 131
+Karl, karl_ka234@domain.com
+Bert, bert_bb23@localhost, 150
