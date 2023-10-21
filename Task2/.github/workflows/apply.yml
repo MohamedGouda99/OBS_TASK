@@ -43,7 +43,7 @@ jobs:
   
 
   update-kubeconfig:
-    # needs: Build_Project
+    needs: Build_Project
     name: Update kubeconfig
     runs-on: ubuntu-latest
     steps:
